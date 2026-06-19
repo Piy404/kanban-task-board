@@ -31,6 +31,31 @@ document.addEventListener("DOMContentLoaded", () => {
         todoList.appendChild(card);
     }
 
+    function saveBoardState() {
+        const columns = {
+            "todo-list": [],
+            "inprogress-list": [],
+            "done-list": []
+        };
+
+        Object.keys(columns).forEach(columnId => {
+            const listEl = document.getElementById(columnId);
+            if (listEl) {
+                const cards = listEl.querySelectorAll(".task-card");
+                cards.forEach(card => {
+                    const textEl = card.querySelector(".task-text");
+                    const text = textEl ? textEl.textContent : "";
+                    columns[columnId].push({
+                        id: card.id,
+                        text: text
+                    });
+                });
+            }
+        });
+
+        localStorage.setItem("kanban-board-state", JSON.stringify(columns));
+    }
+
     if (addTaskBtn) {
         addTaskBtn.addEventListener("click", () => {
             const taskText = prompt("Enter task description:");
