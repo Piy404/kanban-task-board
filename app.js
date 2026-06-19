@@ -7,6 +7,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const card = document.createElement("div");
         card.classList.add("task-card");
+        card.setAttribute("draggable", "true");
+        card.setAttribute("id", `task-${Date.now()}-${Math.floor(Math.random() * 1000)}`);
 
         card.innerHTML = `
             <p class="task-text">${text}</p>
@@ -15,6 +17,16 @@ document.addEventListener("DOMContentLoaded", () => {
                 <button class="btn-delete">Delete</button>
             </div>
         `;
+
+        // Native drag event listeners
+        card.addEventListener("dragstart", (e) => {
+            card.classList.add("dragging");
+            e.dataTransfer.setData("text/plain", card.id);
+        });
+
+        card.addEventListener("dragend", () => {
+            card.classList.remove("dragging");
+        });
 
         todoList.appendChild(card);
     }
@@ -50,4 +62,34 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     }
+
+    // Column drop zone event listeners
+    const taskLists = document.querySelectorAll(".task-list");
+    taskLists.forEach(list => {
+        list.addEventListener("dragover", (e) => {
+            e.preventDefault(); // Required to allow drop event
+        });
+
+        list.addEventListener("dragenter", (e) => {
+            e.preventDefault();
+            list.classList.add("drag-over");
+        });
+
+        list.addEventListener("dragleave", () => {
+            list.classList.remove("drag-over");
+        });
+
+        list.addEventListener("drop", (e) => {
+            list.classList.remove("drag-over");
+            const cardId = e.dataTransfer.getData("text/plain");
+            const card = document.getElementById(cardId);
+            if (card) {
+                list.appendChild(card);
+            }
+        });
+    });
+
+    // Pre-populate some initial tasks for demonstration
+    createTaskCard("Review UI design");
+    createTaskCard("Submit End-Sem code");
 });
