@@ -88,4 +88,8 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     });
+
+    // Pre-populate some initial tasks for demonstration
+    createTaskCard("Review UI design");
+    createTaskCard("Submit End-Sem code");
 });
