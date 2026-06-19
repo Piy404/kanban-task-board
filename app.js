@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
     const addTaskBtn = document.getElementById("add-task-btn");
 
-    function createTaskCard(text) {
+    function createTaskCard(text, shouldSave = true) {
         const todoList = document.getElementById("todo-list");
         if (!todoList) return;
 
@@ -29,6 +29,10 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         todoList.appendChild(card);
+        
+        if (shouldSave) {
+            saveBoardState();
+        }
     }
 
     function saveBoardState() {
@@ -72,6 +76,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 const card = event.target.closest(".task-card");
                 if (card) {
                     card.remove();
+                    saveBoardState();
                 }
             } else if (event.target.classList.contains("btn-edit")) {
                 const card = event.target.closest(".task-card");
@@ -81,6 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         const newText = prompt("Edit task description:", textEl.textContent);
                         if (newText && newText.trim() !== "") {
                             textEl.textContent = newText.trim();
+                            saveBoardState();
                         }
                     }
                 }
@@ -110,6 +116,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const card = document.getElementById(cardId);
             if (card) {
                 list.appendChild(card);
+                saveBoardState();
             }
         });
     });
