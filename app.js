@@ -7,6 +7,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const card = document.createElement("div");
         card.classList.add("task-card");
+        card.setAttribute("draggable", "true");
+        card.setAttribute("id", `task-${Date.now()}-${Math.floor(Math.random() * 1000)}`);
 
         card.innerHTML = `
             <p class="task-text">${text}</p>
