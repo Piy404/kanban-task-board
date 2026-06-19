@@ -1,14 +1,14 @@
 document.addEventListener("DOMContentLoaded", () => {
     const addTaskBtn = document.getElementById("add-task-btn");
 
-    function createTaskCard(text, shouldSave = true) {
-        const todoList = document.getElementById("todo-list");
-        if (!todoList) return;
+    function createTaskCard(text, columnId = "todo-list", shouldSave = true, cardId = null) {
+        const listEl = document.getElementById(columnId);
+        if (!listEl) return;
 
         const card = document.createElement("div");
         card.classList.add("task-card");
         card.setAttribute("draggable", "true");
-        card.setAttribute("id", `task-${Date.now()}-${Math.floor(Math.random() * 1000)}`);
+        card.setAttribute("id", cardId || `task-${Date.now()}-${Math.floor(Math.random() * 1000)}`);
 
         card.innerHTML = `
             <p class="task-text">${text}</p>
@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
             card.classList.remove("dragging");
         });
 
-        todoList.appendChild(card);
+        listEl.appendChild(card);
         
         if (shouldSave) {
             saveBoardState();
@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
         addTaskBtn.addEventListener("click", () => {
             const taskText = prompt("Enter task description:");
             if (taskText && taskText.trim() !== "") {
-                createTaskCard(taskText.trim());
+                createTaskCard(taskText.trim(), "todo-list", true);
             }
         });
     }
@@ -121,7 +121,31 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // Pre-populate some initial tasks for demonstration
-    createTaskCard("Review UI design");
-    createTaskCard("Submit End-Sem code");
+    function loadBoardState() {
+        const stateStr = localStorage.getItem("kanban-board-state");
+        if (!stateStr) return;
+
+        try {
+            const columns = JSON.parse(stateStr);
+            Object.keys(columns).forEach(columnId => {
+                const listEl = document.getElementById(columnId);
+                if (listEl) {
+                    listEl.innerHTML = "";
+                }
+            });
+
+            Object.keys(columns).forEach(columnId => {
+                const cards = columns[columnId];
+                if (Array.isArray(cards)) {
+                    cards.forEach(cardData => {
+                        createTaskCard(cardData.text, columnId, false, cardData.id);
+                    });
+                }
+            });
+        } catch (error) {
+            console.error("Failed to parse board state:", error);
+        }
+    }
+
+    loadBoardState();
 });
