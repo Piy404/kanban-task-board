@@ -170,3 +170,8 @@ body {
     border-color: #fca5a5;
     color: #ef4444;
 }
+
+.task-card.dragging {
+    opacity: 0.4;
+    border: 2px dashed var(--primary-color);
+}

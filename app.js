@@ -18,6 +18,16 @@ document.addEventListener("DOMContentLoaded", () => {
             </div>
         `;
 
+        // Native drag event listeners
+        card.addEventListener("dragstart", (e) => {
+            card.classList.add("dragging");
+            e.dataTransfer.setData("text/plain", card.id);
+        });
+
+        card.addEventListener("dragend", () => {
+            card.classList.remove("dragging");
+        });
+
         todoList.appendChild(card);
     }
 
