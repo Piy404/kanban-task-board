@@ -27,4 +27,27 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     }
+
+    const board = document.querySelector(".board-container");
+    if (board) {
+        board.addEventListener("click", (event) => {
+            if (event.target.classList.contains("btn-delete")) {
+                const card = event.target.closest(".task-card");
+                if (card) {
+                    card.remove();
+                }
+            } else if (event.target.classList.contains("btn-edit")) {
+                const card = event.target.closest(".task-card");
+                if (card) {
+                    const textEl = card.querySelector(".task-text");
+                    if (textEl) {
+                        const newText = prompt("Edit task description:", textEl.textContent);
+                        if (newText && newText.trim() !== "") {
+                            textEl.textContent = newText.trim();
+                        }
+                    }
+                }
+            }
+        });
+    }
 });
