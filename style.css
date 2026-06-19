@@ -175,3 +175,8 @@ body {
     opacity: 0.4;
     border: 2px dashed var(--primary-color);
 }
+
+.task-list.drag-over {
+    background-color: rgba(59, 130, 246, 0.08) !important;
+    border: 2px dashed var(--primary-color);
+}

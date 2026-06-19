@@ -62,4 +62,30 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     }
+
+    // Column drop zone event listeners
+    const taskLists = document.querySelectorAll(".task-list");
+    taskLists.forEach(list => {
+        list.addEventListener("dragover", (e) => {
+            e.preventDefault(); // Required to allow drop event
+        });
+
+        list.addEventListener("dragenter", (e) => {
+            e.preventDefault();
+            list.classList.add("drag-over");
+        });
+
+        list.addEventListener("dragleave", () => {
+            list.classList.remove("drag-over");
+        });
+
+        list.addEventListener("drop", (e) => {
+            list.classList.remove("drag-over");
+            const cardId = e.dataTransfer.getData("text/plain");
+            const card = document.getElementById(cardId);
+            if (card) {
+                list.appendChild(card);
+            }
+        });
+    });
 });
