@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kanban Task Board</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="app.js" defer></script>
+</head>
+<body>
+    <header class="app-header">
+        <h1>Kanban Board</h1>
+    </header>
+
+    <main class="board-container">
+        <!-- To Do Column -->
+        <section class="board-column" id="todo-column">
+            <div class="column-header">
+                <h2>To Do</h2>
+                <button id="add-task-btn" class="btn btn-add">+ Add Task</button>
+            </div>
+            <div class="task-list" id="todo-list">
+                <!-- Dynamic tasks will be inserted here -->
+            </div>
+        </section>
+
+        <!-- In Progress Column -->
+        <section class="board-column" id="inprogress-column">
+            <div class="column-header">
+                <h2>In Progress</h2>
+            </div>
+            <div class="task-list" id="inprogress-list">
+                <!-- Dynamic tasks will be inserted here -->
+            </div>
+        </section>
+
+        <!-- Done Column -->
+        <section class="board-column" id="done-column">
+            <div class="column-header">
+                <h2>Done</h2>
+            </div>
+            <div class="task-list" id="done-list">
+                <!-- Dynamic tasks will be inserted here -->
+            </div>
+        </section>
+    </main>
+</body>
+</html>
